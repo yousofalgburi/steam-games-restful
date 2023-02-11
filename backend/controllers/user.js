@@ -8,6 +8,12 @@ module.exports.login = async (req, res) => {
 
 	if (email) email = email.toLowerCase()
 
+	if (!name || !email || !password) {
+		return res
+			.status(400)
+			.json({ message: 'please provide all the required fields.' })
+	}
+
 	try {
 		let { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [
 			email,
@@ -44,6 +50,12 @@ module.exports.register = async (req, res) => {
 	let { name, email, password } = req.body
 
 	if (email) email = email.toLowerCase()
+
+	if (!email || !password) {
+		return res
+			.status(400)
+			.json({ message: 'please provide all the required fields.' })
+	}
 
 	try {
 		let { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [
