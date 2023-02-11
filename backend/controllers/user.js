@@ -47,7 +47,9 @@ module.exports.login = async (req, res) => {
 }
 
 module.exports.register = async (req, res) => {
-	let { name, email, password } = req.body
+	console.log(req.body)
+
+	let { name, email, password } = req.body.data
 
 	if (email) email = email.toLowerCase()
 
@@ -83,7 +85,11 @@ module.exports.register = async (req, res) => {
 					}
 				)
 
-				res.status(201).json({ email: results.rows[0].email, token: token })
+				res.status(201).json({
+					name: results.rows[0].name,
+					email: results.rows[0].email,
+					token: token,
+				})
 			}
 		)
 	} catch (error) {

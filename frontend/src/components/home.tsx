@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import {
@@ -8,6 +8,8 @@ import {
 	PlusIcon,
 	Squares2X2Icon,
 } from '@heroicons/react/20/solid'
+import { AuthContext, AuthContextType } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const sortOptions = [
 	{ name: 'Most Popular', href: '#', current: true },

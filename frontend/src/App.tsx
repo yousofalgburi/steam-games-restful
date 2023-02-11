@@ -1,20 +1,47 @@
-import Home from './components/home'
-import Navbar from './components/navbar'
-import AuthContextProvider from './context/AuthContext'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import AuthPage from './components/AuthPage'
+import { AuthContext, AuthContextType } from './context/AuthContext'
+import { useContext, useEffect } from 'react'
+import Navbar from './components/navbar'
+import Home from './components/home'
 
 export default function App() {
-	return (
-		<AuthContextProvider>
-			<BrowserRouter>
-				<Navbar />
+	const { setUserName, setUserEmail, setUserToken, setIsLoggedIn, isLoggedIn } =
+		useContext(AuthContext) as AuthContextType
 
-				<Routes>
-					<Route path='/' element={<Home />} />
-					<Route path='/auth' element={<AuthPage />} />
-				</Routes>
-			</BrowserRouter>
-		</AuthContextProvider>
+	let user = JSON.parse(localStorage.getItem('user') || '{}')
+
+	useEffect(() => {
+		if (user && user?.name) {
+			const { name, email, token } = user
+
+			setUserName(name)
+			setUserEmail(email)
+			setUserToken(token)
+			setIsLoggedIn(true)
+		}
+	}, [user])
+
+	return (
+		<BrowserRouter>
+			<Navbar />
+
+			<Routes>
+				<Route
+					path='/'
+					element={isLoggedIn ? <Home /> : <Navigate to='/auth' />}
+				/>
+
+				<Route
+					path='/auth'
+					element={!isLoggedIn ? <AuthPage /> : <Navigate to='/' />}
+				/>
+
+				<Route
+					path='/*'
+					element={!isLoggedIn ? <AuthPage /> : <Navigate to='/' />}
+				/>
+			</Routes>
+		</BrowserRouter>
 	)
 }
