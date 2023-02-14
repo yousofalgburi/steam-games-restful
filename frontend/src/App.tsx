@@ -2,8 +2,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import AuthPage from './components/AuthPage'
 import { AuthContext, AuthContextType } from './context/AuthContext'
 import { useContext, useEffect } from 'react'
-import Navbar from './components/navbar'
-import Home from './components/home'
+import Navbar from './components/Navbar'
+import Home from './components/Home'
 
 export default function App() {
 	const { setUserName, setUserEmail, setUserToken, setIsLoggedIn, isLoggedIn } =

@@ -31,10 +31,7 @@ export default function Navbar() {
 							</div>
 
 							<div className='flex flex-1 items-center justify-center sm:items-stretch sm:justify-start'>
-								<div
-									onClick={() => navigate('/')}
-									className='flex flex-shrink-0 items-center'
-								>
+								<div className='flex flex-shrink-0 items-center'>
 									<img
 										className='block h-8 w-auto lg:hidden'
 										src='https://res.cloudinary.com/dcqzhsbcc/image/upload/v1676138161/instagram_profile_image_p3bmrv.png'
@@ -112,19 +109,6 @@ export default function Navbar() {
 															)}
 														>
 															Your Profile
-														</a>
-													)}
-												</Menu.Item>
-												<Menu.Item>
-													{({ active }) => (
-														<a
-															href='#'
-															className={classNames(
-																active ? 'bg-gray-100' : '',
-																'block px-4 py-2 text-sm text-gray-700'
-															)}
-														>
-															Settings
 														</a>
 													)}
 												</Menu.Item>

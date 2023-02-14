@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { LockClosedIcon } from '@heroicons/react/20/solid'
-import { registerUser } from '../api/userAPI'
+import { registerUser, signinUser } from '../api/userAPI'
 import { AuthContext, AuthContextType } from '../context/AuthContext'
 
 export default function AuthForm() {
@@ -16,16 +16,23 @@ export default function AuthForm() {
 
 	const [isLoginPage, setIsLoginPage] = useState(true)
 
-	const handleRegister = async (e: any) => {
+	const handleSubmit = async (e: any) => {
 		e.preventDefault()
 		let response: any = {}
 
 		setIsLoading(true)
-		response = await registerUser({
-			name,
-			email,
-			password,
-		})
+		if (isLoginPage) {
+			response = await signinUser({
+				email,
+				password,
+			})
+		} else {
+			response = await registerUser({
+				name,
+				email,
+				password,
+			})
+		}
 		setIsLoading(false)
 
 		if (response && !response?.name) {
@@ -40,7 +47,13 @@ export default function AuthForm() {
 		console.log(name, email, password)
 	}
 
-	const setFormSuccessData = ({ name, email, token }: any) => {
+	const setFormSuccessData = (data: any) => {
+		let { email, token } = data
+
+		if (!isLoginPage) {
+			let { name } = data
+		}
+
 		setUserName(name)
 		setUserEmail(email)
 		setUserToken(token)
@@ -195,7 +208,7 @@ export default function AuthForm() {
 									<button
 										type='submit'
 										className='group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
-										onClick={handleSignin}
+										onClick={handleSubmit}
 										disabled={isLoading}
 									>
 										<span className='absolute inset-y-0 left-0 flex items-center pl-3'>
@@ -220,7 +233,7 @@ export default function AuthForm() {
 									<button
 										type='submit'
 										className='group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
-										onClick={handleRegister}
+										onClick={handleSubmit}
 										disabled={isLoading}
 									>
 										{!isLoading ? (

@@ -4,11 +4,13 @@ const pool = require('../db/db.js')
 const secret = process.env.SECERT || 'test'
 
 module.exports.login = async (req, res) => {
-	let { email, password } = req.body
+	let { email, password } = req.body.data
+
+	console.log(email, password)
 
 	if (email) email = email.toLowerCase()
 
-	if (!name || !email || !password) {
+	if (!email || !password) {
 		return res
 			.status(400)
 			.json({ message: 'please provide all the required fields.' })
@@ -47,13 +49,11 @@ module.exports.login = async (req, res) => {
 }
 
 module.exports.register = async (req, res) => {
-	console.log(req.body)
-
 	let { name, email, password } = req.body.data
 
 	if (email) email = email.toLowerCase()
 
-	if (!email || !password) {
+	if (!email || !password || !name) {
 		return res
 			.status(400)
 			.json({ message: 'please provide all the required fields.' })
