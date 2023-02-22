@@ -6,8 +6,6 @@ const secret = process.env.SECERT || 'test'
 module.exports.login = async (req, res) => {
 	let { email, password } = req.body.data
 
-	console.log(email, password)
-
 	if (email) email = email.toLowerCase()
 
 	if (!email || !password) {
